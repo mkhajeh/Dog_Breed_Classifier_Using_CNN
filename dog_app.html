@@ -13147,8 +13147,8 @@ div#notebook {
 <li><a href="#step3">Step 3</a>: Create a CNN to Classify Dog Breeds (from Scratch)</li>
 <li><a href="#step4">Step 4</a>: Use a CNN to Classify Dog Breeds (using Transfer Learning)</li>
 <li><a href="#step5">Step 5</a>: Create a CNN to Classify Dog Breeds (using Transfer Learning)</li>
-<li><a href="#step6">Step 6</a>: Write your Algorithm</li>
-<li><a href="#step7">Step 7</a>: Test Your Algorithm</li>
+<li><a href="#step6">Step 6</a>: Write the  Algorithm</li>
+<li><a href="#step7">Step 7</a>: Test the Algorithm</li>
 </ul>
 <hr>
 <p><a id='step0'></a></p>
@@ -13233,6 +13233,67 @@ There are 836 test dog images.
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Check-Class-imbalance-problem">Check Class imbalance problem<a class="anchor-link" href="#Check-Class-imbalance-problem">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Examine into the breakdown of images by breeds of dog in training set</span>
+<span class="n">train_targets</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[2]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([ 64.,  58.,  52.,  63.,  77.,  64.,  50.,  66.,  34.,  50.,  66.,
+        66.,  46.,  69.,  73.,  59.,  62.,  50.,  48.,  62.,  64.,  47.,
+        65.,  62.,  37.,  41.,  64.,  35.,  74.,  52.,  56.,  65.,  45.,
+        64.,  53.,  65.,  50.,  57.,  69.,  53.,  69.,  63.,  50.,  64.,
+        53.,  67.,  54.,  54.,  50.,  50.,  62.,  49.,  47.,  57.,  50.,
+        65.,  71.,  50.,  47.,  60.,  61.,  53.,  53.,  39.,  42.,  33.,
+        34.,  63.,  51.,  47.,  62.,  48.,  42.,  41.,  44.,  64.,  43.,
+        40.,  59.,  46.,  56.,  61.,  46.,  50.,  37.,  53.,  66.,  51.,
+        53.,  58.,  57.,  44.,  35.,  44.,  49.,  43.,  50.,  46.,  42.,
+        34.,  48.,  29.,  58.,  42.,  31.,  50.,  46.,  26.,  45.,  33.,
+        44.,  54.,  39.,  35.,  63.,  30.,  48.,  53.,  31.,  39.,  28.,
+        32.,  44.,  50.,  34.,  30.,  41.,  30.,  48.,  44.,  30.,  26.,
+        30.])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>in the above cell, I have broken down training set according to the breeds of dog. It appears that there is no problem of class imbalance. Therefore, accuracy is utilized as the metric to evaluate the CNN model which will be trained in this exercise. If there is a problem of class imbalance, I will use other metrics such as F1 instead</p>
+
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
@@ -13797,7 +13858,7 @@ $$<p>Here, <code>nb_samples</code> is the number of samples, or number of images
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Making-Predictions-with-ResNet-50">Making Predictions with ResNet-50<a class="anchor-link" href="#Making-Predictions-with-ResNet-50">&#182;</a></h3><p>Getting the 4D tensor ready for ResNet-50, and for any other pre-trained model in Keras, requires some additional processing.  First, the RGB image is converted to BGR by reordering the channels.  All pre-trained models have the additional normalization step that the mean pixel (expressed in RGB as $[103.939, 116.779, 123.68]$ and calculated from all pixels in all images in ImageNet) must be subtracted from every pixel in each image.  This is implemented in the imported function <code>preprocess_input</code>.  If you're curious, you can check the code for <code>preprocess_input</code> <a href="https://github.com/fchollet/keras/blob/master/keras/applications/imagenet_utils.py">here</a>.</p>
+<h3 id="Making-Predictions-with-ResNet-50">Making Predictions with ResNet-50<a class="anchor-link" href="#Making-Predictions-with-ResNet-50">&#182;</a></h3><p>Getting the 4D tensor ready for ResNet-50, and for any other pre-trained model in Keras, requires some additional processing.  First, the RGB image is converted to BGR by reordering the channels.  All pre-trained models have the additional normalization step that the mean pixel (expressed in RGB as $[103.939, 116.779, 123.68]$ and calculated from all pixels in all images in ImageNet) must be subtracted from every pixel in each image.  This is implemented in the imported function <code>preprocess_input</code>.  for further information about <code>preprocess_input</code> more information is provided <a href="https://github.com/fchollet/keras/blob/master/keras/applications/imagenet_utils.py">here</a>.</p>
 <p>Now that we have a way to format our image for supplying to ResNet-50, we are now ready to use the model to extract the predictions.  This is accomplished with the <code>predict</code> method, which returns an array whose $i$-th entry is the model's predicted probability that the image belongs to the $i$-th ImageNet category.  This is implemented in the <code>ResNet50_predict_labels</code> function below.</p>
 <p>By taking the argmax of the predicted probability vector, we obtain an integer corresponding to the model's predicted object class, which we can identify with an object category through the use of this <a href="https://gist.github.com/yrevar/942d3a0ac09ec9e5eb3a">dictionary</a>.</p>
 
@@ -13906,9 +13967,9 @@ $$<p>Here, <code>nb_samples</code> is the number of samples, or number of images
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><a id='step3'></a></p>
-<h2 id="Step-3:-Create-a-CNN-to-Classify-Dog-Breeds-(from-Scratch)">Step 3: Create a CNN to Classify Dog Breeds (from Scratch)<a class="anchor-link" href="#Step-3:-Create-a-CNN-to-Classify-Dog-Breeds-(from-Scratch)">&#182;</a></h2><p>Now that we have functions for detecting humans and dogs in images, we need a way to predict breed from images.  In this step, you will create a CNN that classifies dog breeds.  You must create your CNN <em>from scratch</em> (so, you can't use transfer learning <em>yet</em>!), and you must attain a test accuracy of at least 1%.  In Step 5 of this notebook, you will have the opportunity to use transfer learning to create a CNN that attains greatly improved accuracy.</p>
-<p>Be careful with adding too many trainable layers!  More parameters means longer training, which means you are more likely to need a GPU to accelerate the training process.  Thankfully, Keras provides a handy estimate of the time that each epoch is likely to take; you can extrapolate this estimate to figure out how long it will take for your algorithm to train.</p>
-<p>We mention that the task of assigning breed to dogs from images is considered exceptionally challenging.  To see why, consider that <em>even a human</em> would have great difficulty in distinguishing between a Brittany and a Welsh Springer Spaniel.</p>
+<h2 id="Step-3:-Create-a-CNN-to-Classify-Dog-Breeds-(from-Scratch)">Step 3: Create a CNN to Classify Dog Breeds (from Scratch)<a class="anchor-link" href="#Step-3:-Create-a-CNN-to-Classify-Dog-Breeds-(from-Scratch)">&#182;</a></h2><p>Now that I have functions for detecting humans and dogs in images, I need a way to predict breed from images.  In this step, I will create a CNN that classifies dog breeds.  I am going to create my CNN <em>from scratch</em> , and I am going to consider a test accuracy of at least 1%.  In Step 5 of this notebook, I will have the opportunity to use transfer learning to create a CNN that attains greatly improved accuracy.</p>
+<p>it should be emphasized that we should also be careful with adding too many trainable layers!  More parameters means longer training, which means we are more likely to need a GPU to accelerate the training process.  Thankfully, Keras provides a handy estimate of the time that each epoch is likely to take; I can extrapolate this estimate to figure out how long it will take for my algorithm to train.</p>
+<p>I mention that the task of assigning breed to dogs from images is considered exceptionally challenging.  To see why, consider that <em>even a human</em> would have great difficulty in distinguishing between a Brittany and a Welsh Springer Spaniel.</p>
 <table>
 <thead><tr>
 <th>Brittany</th>
@@ -13936,7 +13997,7 @@ $$<p>Here, <code>nb_samples</code> is the number of samples, or number of images
 </tr>
 </tbody>
 </table>
-<p>Likewise, recall that labradors come in yellow, chocolate, and black.  Your vision-based algorithm will have to conquer this high intra-class variation to determine how to classify all of these different shades as the same breed.</p>
+<p>Likewise, recall that labradors come in yellow, chocolate, and black.  my vision-based algorithm will have to conquer this high intra-class variation to determine how to classify all of these different shades as the same breed.</p>
 <table>
 <thead><tr>
 <th>Yellow Labrador</th>
@@ -13952,8 +14013,8 @@ $$<p>Here, <code>nb_samples</code> is the number of samples, or number of images
 </tr>
 </tbody>
 </table>
-<p>We also mention that random chance presents an exceptionally low bar: setting aside the fact that the classes are slightly imabalanced, a random guess will provide a correct answer roughly 1 in 133 times, which corresponds to an accuracy of less than 1%.</p>
-<h3 id="Pre-process-the-Data">Pre-process the Data<a class="anchor-link" href="#Pre-process-the-Data">&#182;</a></h3><p>We rescale the images by dividing every pixel in every image by 255.</p>
+<p>I also mention that random chance presents an exceptionally low bar: setting aside the fact that the classes are slightly imabalanced, a random guess will provide a correct answer roughly 1 in 133 times, which corresponds to an accuracy of less than 1%.</p>
+<h3 id="Pre-process-the-Data">Pre-process the Data<a class="anchor-link" href="#Pre-process-the-Data">&#182;</a></h3><p>I rescale the images by dividing every pixel in every image by 255.</p>
 
 </div>
 </div>
@@ -14129,7 +14190,7 @@ _________________________________________________________________
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">keras.callbacks</span> <span class="k">import</span> <span class="n">ModelCheckpoint</span>  
 
-<span class="c1">### specify the number of epochs that you would like to use to train the model.</span>
+<span class="c1">### specify the number of epochs that I would like to use to train the model.</span>
 
 <span class="n">epochs</span> <span class="o">=</span> <span class="mi">20</span>
 
@@ -14671,7 +14732,7 @@ test_{network} = bottleneck_features['test']</code></pre>
 <div class="prompt input_prompt">In&nbsp;[26]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">### Define your architecture.</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">### Define  architecture.</span>
 <span class="n">Resnet50_model</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">()</span>
 <span class="n">Resnet50_model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">GlobalAveragePooling2D</span><span class="p">(</span><span class="n">input_shape</span><span class="o">=</span><span class="n">train_Resnet50</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]))</span>
 <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">))</span>
@@ -14969,7 +15030,7 @@ Epoch 20/20
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><a id='step6'></a></p>
-<h2 id="Step-6:-Write-your-Algorithm">Step 6: Write your Algorithm<a class="anchor-link" href="#Step-6:-Write-your-Algorithm">&#182;</a></h2><p>Finally, we write an algorithm that accepts a file path to an image and first determines whether the image contains a human, dog, or neither.  Then,</p>
+<h2 id="Step-6:-Write-the-Algorithm">Step 6: Write the Algorithm<a class="anchor-link" href="#Step-6:-Write-the-Algorithm">&#182;</a></h2><p>Finally, we write an algorithm that accepts a file path to an image and first determines whether the image contains a human, dog, or neither.  Then,</p>
 <ul>
 <li>if a <strong>dog</strong> is detected in the image, return the predicted breed.</li>
 <li>if a <strong>human</strong> is detected in the image, return the resembling dog breed.</li>
@@ -14985,7 +15046,7 @@ Epoch 20/20
 <div class="prompt input_prompt">In&nbsp;[32]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">### Write our algorithm.</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">### Write  algorithm.</span>
 <span class="k">def</span> <span class="nf">human_dog_breed_detector</span><span class="p">(</span><span class="n">images</span><span class="p">):</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">5</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">images</span><span class="p">)))</span>
     <span class="c1"># iterating over image paths</span>
@@ -15022,8 +15083,8 @@ Epoch 20/20
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><a id='step7'></a></p>
-<h2 id="Step-7:-Test-Your-Algorithm">Step 7: Test Your Algorithm<a class="anchor-link" href="#Step-7:-Test-Your-Algorithm">&#182;</a></h2><p>In this section, we will take our new algorithm for a spin!  What kind of dog does the algorithm think that <strong>you</strong> look like?  If we have a dog, does it predict our dog's breed accurately?  If we have a cat, does it mistakenly think that our cat is a dog?</p>
-<h3 id="Test-Our-Algorithm-on-Sample-Images!">Test Our Algorithm on Sample Images!<a class="anchor-link" href="#Test-Our-Algorithm-on-Sample-Images!">&#182;</a></h3><p>We tested our algorithm on six images. We use two human, two dog, a lion, and a cat images.</p>
+<h2 id="Step-7:-Test-the-Algorithm">Step 7: Test the Algorithm<a class="anchor-link" href="#Step-7:-Test-the-Algorithm">&#182;</a></h2><p>In this section, I will take our new algorithm for a spin!  What kind of dog does the algorithm think that <strong>you</strong> look like?  If we have a dog, does it predict our dog's breed accurately?  If we have a cat, does it mistakenly think that our cat is a dog?</p>
+<h3 id="Test-the-Algorithm-on-Sample-Images!">Test the Algorithm on Sample Images!<a class="anchor-link" href="#Test-the-Algorithm-on-Sample-Images!">&#182;</a></h3><p>We tested our algorithm on six images. We use two human, two dog, a lion, and a cat images.</p>
 <p>The outputs are showing very accurate results and better than what we expected. Our initial assessment shows that out of 6 images of dogs, humans and other animals, the model correctly identifies dogs and humans from other animals and the predicted breeds also match our data. 
 Few possible points of improvement for our algorithm could be;</p>
 <ul>
@@ -15045,7 +15106,7 @@ Few possible points of improvement for our algorithm could be;</p>
 <div class="prompt input_prompt">In&nbsp;[36]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## Execute your algorithm from Step 6 on</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## Execute the algorithm from Step 6 on</span>
 <span class="c1">##  6 images on my computer</span>
 <span class="n">images</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;images/Dalmatian_04047.jpg&quot;</span><span class="p">,</span>
           <span class="s2">&quot;images/Alaskan_malamute_00383.jpg&quot;</span><span class="p">,</span>
